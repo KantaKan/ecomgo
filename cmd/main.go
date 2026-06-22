@@ -10,4 +10,5 @@ func main() {
 	api := application{
 		config: cfg,
 	}
-}
+
+	api.run(api.mount())
