@@ -1,6 +1,7 @@
 package products
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/KantaKan/ecomgo/internal/json"
@@ -17,8 +18,14 @@ func NewHandler(service Service) *handler {
 }
 
 func (h *handler) ListProducts(w http.ResponseWriter, r *http.Request) {
-	//call the service  > list products
-	//2 return JSON in http response
+	err := h.service.listProducts(r.Context())
+
+	if err != nil{
+		log.Println(err)
+		http.Error(w, err.Error(),http.StatusInternalServerError)
+		return 
+	}
+
 	products :=  struct {
 		Products []string `json:"products"`
 	}{}
